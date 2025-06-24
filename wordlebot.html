@@ -1,0 +1,20 @@
+<script src="wordlebot.js"></script>
+<script>
+function suggestWord() {
+    var matchPattern = document.getElementById("matchPattern").value;
+    var notFound = document.getElementById("notFound").value;
+    validWords = filterWords(validWords, matchPattern, notFound);
+    
+    document.getElementById("nextWord").value = JSON.stringify(validWords.slice(0,5), null, 4);
+    
+}
+</script>
+<form>
+    <ul>
+    <li><label>Pattern: <input id="matchPattern"/></label></li>
+    <li><label>Exclusions: <input id="notFound"/></label></li>
+    <li><input type="button" onClick="suggestWord()" value="Generate Guess Word"></li>
+    <li><label>Top words to try: 
+        <textarea id="nextWord" readonly></textarea></label></li>
+    </ul>
+</form>

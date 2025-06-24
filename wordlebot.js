@@ -45,7 +45,7 @@ function filterWords(validWords, matchPattern, notFound) {
     matchPattern = matchPattern.replaceAll(/([A-Z])/g, (result) => `[^${result.toLowerCase()}X]`);
 
     if (inexactMatches.length && notFound.length) {
-        filterRegex = new RegExp(`^${matchPattern.replaceAll(".", `(?:[${inexactMatches}]|[^${notFound}])`).replaceAll("X", `${notFound}`)}$`);
+        filterRegex = new RegExp(`^${matchPattern.replaceAll(".", `(?:[^${notFound}])`).replaceAll("X", `${notFound}`)}$`);
     } else if (!inexactMatches.length && notFound.length) {
         filterRegex = new RegExp(`^${matchPattern.replaceAll(".", `(?:[^${notFound}])`)}$`);
     } else if (inexactMatches.length && !notFound.length) {
@@ -55,23 +55,32 @@ function filterWords(validWords, matchPattern, notFound) {
     }
     
     return validWords.filter(word => 
-        inexactMatches.length ? 
-            word.match(filterRegex) && 
-            word.match(`[${inexactMatches}]`)
-        :
-            word.match(filterRegex)
+        word.match(filterRegex) && 
+            inexactMatches
+            .split("")
+            .reduce((result, letter) => result && word.match(letter), true)
     );
 }
+let validWords;
 
-const fs = require('node:fs');
-const data = fs.readFileSync('./five_letter_words.txt', 'utf8');
+if (typeof require !== "undefined") {
+    const fs = require('node:fs');
+    const data = fs.readFileSync('./five_letter_words.txt', 'utf8');
 
-let validWords = data.split("\n");
+    let validWords = data.split("\n");
 
-validWords = filterWords(validWords, "....t", "agle");
-validWords = filterWords(validWords, "..O.t", "sti");
-validWords = filterWords(validWords, ".ount", "c");
-validWords = filterWords(validWords, ".ount", "f");
+    validWords = filterWords(validWords, "....t", "agle");
+    validWords = filterWords(validWords, "..O.t", "sti");
+    validWords = filterWords(validWords, ".ount", "c");
+    validWords = filterWords(validWords, ".ount", "f");
 
 
-console.log(sortWords(validWords).slice(0,5))
+    console.log(sortWords(validWords).slice(0,5))
+} else {
+    async function getWords() {
+        const response = await fetch("five_letter_words.txt");
+        validWords = (await response.text()).split("\n");
+    }
+
+    getWords();
+}
