@@ -1,6 +1,11 @@
 <html>
 <head>
+    <meta name="viewport" content="width=600, initial-scale=1">
     <style>
+        body {
+            font-family: sans-serif;
+            width: 600px;
+        }
         #words {
             min-width: 200px;
         }
@@ -10,7 +15,6 @@
             color: white;
             height: 40px;
             min-width: 20px;
-            font-family: sans-serif;
             font-weight: bold;
             text-align: center;
         }
@@ -22,6 +26,8 @@
         }
         #otherGuesses {
             float: right;
+            border: solid black 2px;
+            font-family: monospace;
         }
     </style>
     
@@ -49,6 +55,8 @@
             currentWord = currentWord.replace(/.$/, '');
         } else if (event.key.match(/^[A-Za-z]$/) && currentWord.length < 5) {
             currentWord = currentWord += event.key.toLowerCase();
+        } else if (event.key === "Enter") {
+            guessNewWord();
         }
         displayCurrentWord();
     }
@@ -115,10 +123,10 @@
 <body onkeydown="updateWords(event)">
 
 
-<textarea rows="10" cols="15" id="otherGuesses" readonly></textarea>
-
-<h1>Wordle Helper</h1>
-<p>Type your guess and click on letters to indicate matches</p>
+<textarea rows="12" cols="15" id="otherGuesses" readonly></textarea>
+<div style="width: 300px">
+<h1>Wordle Helper</h1>    
+Type your guess and click on letters to indicate matches
 <table id="words" onClick="toggleLetterState(event)">
     <tr>
         <td></td>
@@ -129,7 +137,6 @@
     </tr>
 </table>
 <input type="button" value="Add New Guess" onClick="guessNewWord()">
-
-
+</div>
 </body>
 </html>
