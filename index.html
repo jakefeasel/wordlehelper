@@ -48,6 +48,7 @@
         for (var i=0;i<5;i++) {
             document.getElementById("words").getElementsByTagName("tr")[currentGuess].getElementsByTagName("td")[i].innerHTML = currentWord[i] || "";
         }
+        document.getElementById('hiddeninput').focus();
     }
 
     function updateWords(event) {
@@ -99,6 +100,7 @@
             if (validWords.length) {
                 currentWord = validWords[0];
                 document.getElementById("otherGuesses").value = JSON.stringify(validWords.slice(0,9), null, 4);
+                document.getElementById('hiddeninput').value = currentWord;
                 currentGuess++;
                 document.getElementById("words").appendChild(document.createElement("tr"));
                 for (var i=0;i<5;i++) {
@@ -120,7 +122,7 @@
     </script>
     
 </head>
-<body onkeydown="updateWords(event)">
+<body onkeydown="updateWords(event)" onload="displayCurrentWord()">
 
 
 <textarea rows="12" cols="15" id="otherGuesses" readonly></textarea>
@@ -136,6 +138,7 @@ Type your guess and click on letters to indicate matches
         <td></td>
     </tr>
 </table>
+<input type="text" id="hiddeninput">
 <input type="button" value="Add New Guess" onClick="guessNewWord()">
 </div>
 </body>
