@@ -64,13 +64,15 @@
 
     function toggleLetterState(event) {
         var cell = event.target;
-        if (cell.classList[0] === "exact") {
-            cell.className = "inexact";
-        } else if (cell.classList[0] === "inexact") {
-            cell.className = "";
-        } else {
-            cell.className = "exact";
-        }        
+        if (parseInt(cell.parentElement.getAttribute("guessNumber")) === currentGuess) {
+            if (cell.classList[0] === "exact") {
+                cell.className = "inexact";
+            } else if (cell.classList[0] === "inexact") {
+                cell.className = "";
+            } else {
+                cell.className = "exact";
+            }
+        }
     }
 
     function getDetailsFromCurrentWordPattern() {
@@ -103,6 +105,7 @@
                 document.getElementById('hiddeninput').value = currentWord;
                 currentGuess++;
                 document.getElementById("words").appendChild(document.createElement("tr"));
+                document.getElementById("words").getElementsByTagName("tr")[currentGuess].setAttribute("guessNumber", currentGuess)
                 for (var i=0;i<5;i++) {
                     document.getElementById("words").getElementsByTagName("tr")[currentGuess].appendChild(document.createElement("td"));
                     if (currentGuess > 0 && document.getElementById("words").getElementsByTagName("tr")[currentGuess-1].getElementsByTagName("td")[i].className === "exact") {
@@ -130,7 +133,7 @@
 <h1>Wordle Helper</h1>    
 Type your guess and click on letters to indicate matches
 <table id="words" onClick="toggleLetterState(event)">
-    <tr>
+    <tr guessNumber=0>
         <td></td>
         <td></td>
         <td></td>
