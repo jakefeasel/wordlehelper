@@ -68,12 +68,12 @@ if (typeof require !== "undefined") {
     const data = fs.readFileSync('./five_letter_words.txt', 'utf8');
 
     let validWords = data.split("\n");
-
-    validWords = filterWords(validWords, "....t", "agle");
+/*
+    validWords = filterWords(validWords, ".....", "agle");
     validWords = filterWords(validWords, "..O.t", "sti");
     validWords = filterWords(validWords, ".ount", "c");
     validWords = filterWords(validWords, ".ount", "f");
-
+*/
 
     console.log(sortWords(validWords).slice(0,5))
 } else {
