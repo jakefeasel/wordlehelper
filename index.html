@@ -20,6 +20,9 @@
         #words td.inexact {
             background-color: rgb(234 179 8)
         }
+        #otherGuesses {
+            float: right;
+        }
     </style>
     
     <script src="wordlehelper.js"></script>
@@ -87,7 +90,7 @@
 
             if (validWords.length) {
                 currentWord = validWords[0];
-
+                document.getElementById("otherGuesses").value = JSON.stringify(validWords.slice(0,9), null, 4);
                 currentGuess++;
                 document.getElementById("words").appendChild(document.createElement("tr"));
                 for (var i=0;i<5;i++) {
@@ -111,8 +114,11 @@
 </head>
 <body onkeydown="updateWords(event)">
 
+
+<textarea rows="10" cols="15" id="otherGuesses" readonly></textarea>
+
 <h1>Wordle Helper</h1>
-<p>Type your guess</p>
+<p>Type your guess and click on letters to indicate matches</p>
 <table id="words" onClick="toggleLetterState(event)">
     <tr>
         <td></td>
@@ -122,7 +128,8 @@
         <td></td>
     </tr>
 </table>
-<input type="button" value="Add Guess" onClick="guessNewWord()">
+<input type="button" value="Add New Guess" onClick="guessNewWord()">
+
 
 </body>
 </html>
