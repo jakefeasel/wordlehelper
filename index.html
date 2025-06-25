@@ -1,10 +1,10 @@
 <html>
 <head>
-    <meta name="viewport" content="width=600, initial-scale=1">
+    <meta name="viewport" content="width=400px, initial-scale=1.45">
     <style>
         body {
             font-family: sans-serif;
-            width: 600px;
+            width: 400px;
         }
         #words {
             min-width: 200px;
@@ -25,9 +25,15 @@
             background-color: rgb(234 179 8)
         }
         #otherGuesses {
-            float: right;
-            border: solid black 2px;
+            width: 200px;
+            height: 150px;
+            float: left;
+            border: solid gray 2px;
             font-family: monospace;
+        }
+        #instructions {
+            width: 250px;
+            font-size: 8pt;
         }
     </style>
     
@@ -128,10 +134,8 @@
 <body onkeydown="updateWords(event)" onload="displayCurrentWord()">
 
 
-<textarea rows="12" cols="15" id="otherGuesses" readonly></textarea>
-<div style="width: 300px">
+<div style="width: 400px">
 <h1>Wordle Helper</h1>    
-Type your guess and click on letters to indicate matches
 <table id="words" onClick="toggleLetterState(event)">
     <tr guessNumber=0>
         <td></td>
@@ -143,6 +147,19 @@ Type your guess and click on letters to indicate matches
 </table>
 <input type="text" id="hiddeninput">
 <input type="button" value="Add New Guess" onClick="guessNewWord()">
+<ol id="instructions">
+    <li>Type the guess you entered into Wordle</li>
+    <li>Click on letters to indicate which matched exactly</li>
+    <li>Click again for those that didn't match exactly</li>
+    <li>Click "Add New Guess" to get a suggestion</li>
+    <li>Replace the suggestion with any word you prefer</li>
+    <li>Use the list of other suggestions for more ideas</li>
+</ol>
+
+<label>Suggestions:<br>
+<textarea id="otherGuesses" readonly></textarea>
+</label>
 </div>
+
 </body>
 </html>
