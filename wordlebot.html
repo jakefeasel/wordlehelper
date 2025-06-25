@@ -92,9 +92,9 @@
                 document.getElementById("words").appendChild(document.createElement("tr"));
                 for (var i=0;i<5;i++) {
                     document.getElementById("words").getElementsByTagName("tr")[currentGuess].appendChild(document.createElement("td"));
-                    if (currentGuess > 0) {
-                        document.getElementById("words").getElementsByTagName("tr")[currentGuess].getElementsByTagName("td")[i].className = 
-                        document.getElementById("words").getElementsByTagName("tr")[currentGuess-1].getElementsByTagName("td")[i].className;
+                    if (currentGuess > 0 && document.getElementById("words").getElementsByTagName("tr")[currentGuess-1].getElementsByTagName("td")[i].className === "exact") {
+                        document.getElementById("words").getElementsByTagName("tr")[currentGuess].getElementsByTagName("td")[i].className = "exact";
+                        ;
                     }
                     
                 }
