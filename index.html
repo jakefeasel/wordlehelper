@@ -105,6 +105,11 @@
     function guessNewWord() {
         if (currentWord.length === 5) {
             var patternDetails = getDetailsFromCurrentWordPattern();
+            if (patternDetails.matchPattern === ".....") {
+                if (!confirm("Did you remember to click the letters that matched? Are you sure you didn't get any matches from Wordle?")) {
+                    return;
+                }
+            }
             validWords = sortWords(filterWords(validWords, patternDetails.matchPattern, patternDetails.notFound)).map(wordObj => wordObj.word);
         
             if (validWords.length) {
