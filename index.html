@@ -107,7 +107,7 @@
             validWords = filterWords(validWords, patternDetails.matchPattern, patternDetails.notFound);
 
             if (validWords.length) {
-                currentWord = validWords[0];
+                currentWord = sortWords(validWords)[0].word;
                 document.getElementById("otherGuesses").value = JSON.stringify(validWords.slice(0,9), null, 4);
                 document.getElementById('hiddeninput').value = currentWord;
                 currentGuess++;
