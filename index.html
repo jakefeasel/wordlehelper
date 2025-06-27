@@ -104,10 +104,10 @@
     function guessNewWord() {
         if (currentWord.length === 5) {
             var patternDetails = getDetailsFromCurrentWordPattern();
-            validWords = filterWords(validWords, patternDetails.matchPattern, patternDetails.notFound);
-
+            validWords = sortWords(filterWords(validWords, patternDetails.matchPattern, patternDetails.notFound)).map(wordObj => wordObj.word);
+        
             if (validWords.length) {
-                currentWord = sortWords(validWords)[0].word;
+                currentWord = validWords[0];
                 document.getElementById("otherGuesses").value = JSON.stringify(validWords.slice(0,9), null, 4);
                 document.getElementById('hiddeninput').value = currentWord;
                 currentGuess++;
