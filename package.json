@@ -1,0 +1,23 @@
+{
+  "name": "wordlehelper",
+  "version": "1.0.0",
+  "description": "Helps solves Wordle problems",
+  "keywords": [
+    "wordle"
+  ],
+  "homepage": "https://github.com/andrewfeasel/wordlehelper#readme",
+  "bugs": {
+    "url": "https://github.com/andrewfeasel/wordlehelper/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewfeasel/wordlehelper.git"
+  },
+  "license": "MIT",
+  "author": "Jake Feasel",
+  "type": "module",
+  "main": "wordlehelper.js",
+  "scripts": {
+    "test": "node --test"
+  }
+}
