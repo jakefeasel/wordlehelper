@@ -11,7 +11,7 @@ findWordScore("aglet", ["treat"]) => 7
 function findWordScore(filterWord, currentWordList) {
     return currentWordList.reduce((currentScore, currentWord) => {
         let thisScore = 0;
-        for (i=0;i<filterWord.length;i++) {
+        for (let i = 0; i < filterWord.length; i++) {
             if (filterWord.charAt(i) === currentWord.charAt(i)) {
                 thisScore += 5;
             } else if (currentWord.indexOf(filterWord.charAt(i)) !== -1) {
@@ -94,3 +94,7 @@ if (typeof require !== "undefined") {
 
     getWords();
 }
+
+export {
+    findWordScore
+};
