@@ -16,7 +16,7 @@
   "license": "MIT",
   "author": "Jake Feasel",
   "type": "module",
-  "main": "wordlehelper.js",
+  "main": "index.js",
   "scripts": {
     "test": "node --test"
   }
