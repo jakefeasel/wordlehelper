@@ -1,0 +1,34 @@
+body {
+  font-family: sans-serif;
+  width: 400px;
+}
+#words {
+  min-width: 200px;
+}
+#words td {
+  margin: 2px;
+  background-color: gray;
+  color: white;
+  height: 40px;
+  min-width: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: capitalize;
+}
+#words td.exact {
+  background-color: rgb(34 197 94)
+}
+#words td.inexact {
+  background-color: rgb(234 179 8)
+}
+#otherGuesses {
+  width: 200px;
+  height: 180px;
+  float: left;
+  border: solid gray 2px;
+  font-family: monospace;
+}
+#instructions {
+  width: 250px;
+  font-size: 8pt;
+}

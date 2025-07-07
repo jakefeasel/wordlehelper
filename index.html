@@ -1,149 +1,19 @@
 <html>
 <head>
     <title>Wordle Helper</title>
-    <meta name="viewport" content="width=400px, initial-scale=1.45">
-    <style>
-        body {
-            font-family: sans-serif;
-            width: 400px;
-        }
-        #words {
-            min-width: 200px;
-        }
-        #words td {
-            margin: 2px;
-            background-color: gray;
-            color: white;
-            height: 40px;
-            min-width: 20px;
-            font-weight: bold;
-            text-align: center;
-            text-transform: capitalize;
-        }
-        #words td.exact {
-            background-color: rgb(34 197 94)
-        }
-        #words td.inexact {
-            background-color: rgb(234 179 8)
-        }
-        #otherGuesses {
-            width: 200px;
-            height: 180px;
-            float: left;
-            border: solid gray 2px;
-            font-family: monospace;
-        }
-        #instructions {
-            width: 250px;
-            font-size: 8pt;
-        }
-    </style>
+    <meta name="viewport" content="width=400, initial-scale=1.45">
     
-    <script src="wordlehelper.js"></script>
-    <script>
-    let currentWord = "";
-    let currentGuess = 0;
-    function suggestWord() {
-        var matchPattern = document.getElementById("matchPattern").value;
-        var notFound = document.getElementById("notFound").value;
-        validWords = filterWords(validWords, matchPattern, notFound);
-        
-        document.getElementById("nextWord").value = JSON.stringify(validWords.slice(0,5), null, 4);
-        
-    }
-
-    function displayCurrentWord() {
-        for (var i=0;i<5;i++) {
-            document.getElementById("words").getElementsByTagName("tr")[currentGuess].getElementsByTagName("td")[i].innerHTML = currentWord[i] || "";
-        }
-        document.getElementById('hiddeninput').focus();
-    }
-
-    function updateWords(event) {
-        if (event.key === "Backspace") {
-            currentWord = currentWord.replace(/.$/, '');
-        } else if (event.key.match(/^[A-Za-z]$/) && currentWord.length < 5) {
-            currentWord = currentWord += event.key.toLowerCase();
-        } else if (event.key === "Enter") {
-            guessNewWord();
-        }
-        displayCurrentWord();
-    }
-
-    function toggleLetterState(event) {
-        var cell = event.target;
-        if (parseInt(cell.parentElement.getAttribute("guessNumber")) === currentGuess) {
-            if (cell.classList[0] === "exact") {
-                cell.className = "inexact";
-            } else if (cell.classList[0] === "inexact") {
-                cell.className = "";
-            } else {
-                cell.className = "exact";
-            }
-        }
-    }
-
-    function getDetailsFromCurrentWordPattern() {
-        var details = {
-            matchPattern: "",
-            notFound: ""
-        };
-        for (var i=0;i<5;i++) {
-            var cell = document.getElementById("words").getElementsByTagName("tr")[currentGuess].getElementsByTagName("td")[i];
-            if (cell.classList[0] === "exact") {
-                details.matchPattern += cell.innerHTML;
-            } else if (cell.classList[0] === "inexact") {
-                details.matchPattern += cell.innerHTML.toUpperCase();
-            } else {
-                details.matchPattern += ".";
-                details.notFound += cell.innerHTML;
-            }
-        }
-        return details;
-    }
-
-    function guessNewWord() {
-        if (currentWord.length === 5) {
-            var patternDetails = getDetailsFromCurrentWordPattern();
-            if (patternDetails.matchPattern === ".....") {
-                if (!confirm("Did you remember to click the letters that matched? Are you sure you didn't get any matches from Wordle?")) {
-                    return;
-                }
-            }
-            validWords = sortWords(filterWords(validWords, patternDetails.matchPattern, patternDetails.notFound)).map(wordObj => wordObj.word);
-        
-            if (validWords.length) {
-                currentWord = validWords[0];
-                document.getElementById("otherGuesses").value = JSON.stringify(validWords.slice(0,9), null, 4);
-                document.getElementById('hiddeninput').value = currentWord;
-                currentGuess++;
-                document.getElementById("words").appendChild(document.createElement("tr"));
-                document.getElementById("words").getElementsByTagName("tr")[currentGuess].setAttribute("guessNumber", currentGuess)
-                for (var i=0;i<5;i++) {
-                    document.getElementById("words").getElementsByTagName("tr")[currentGuess].appendChild(document.createElement("td"));
-                    if (currentGuess > 0 && document.getElementById("words").getElementsByTagName("tr")[currentGuess-1].getElementsByTagName("td")[i].className === "exact") {
-                        document.getElementById("words").getElementsByTagName("tr")[currentGuess].getElementsByTagName("td")[i].className = "exact";
-                        ;
-                    }
-                    
-                }
-                displayCurrentWord();
-            } else {
-                alert("No matching words remaining");
-            }
-        } else {
-            alert("Provide a current guess first")
-        }
-    }
-    </script>
+    <link rel = "stylesheet" type = "text/css" href = "css/style.css">
+    <script type = "module" src = "js/words.js" defer></script>
+    <script type = "module" src = "js/gui.js" defer></script>
+    <script type = "module" src = "js/index.js" defer></script>
     
 </head>
-<body onkeydown="updateWords(event)" onload="displayCurrentWord()">
-
+<body>
 
 <div style="width: 400px">
 <h1>Wordle Helper</h1>    
-<table id="words" onClick="toggleLetterState(event)">
+<table id="words">
     <tr guessNumber=0>
         <td></td>
         <td></td>
@@ -152,8 +22,10 @@
         <td></td>
     </tr>
 </table>
+
 <input type="text" id="hiddeninput">
-<input type="button" value="Add New Guess" onClick="guessNewWord()">
+<input type="button" id = "guessButton" value="Add New Guess">
+
 <ol id="instructions">
     <li>Type the guess you entered into Wordle</li>
     <li>Click on letters to indicate which matched exactly</li>

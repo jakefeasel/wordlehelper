@@ -1,14 +1,8 @@
-// given a base word and a list of words, use the base word to build a score from the list. The score
-// is based on the number of letters that match the filter word exactly (+5 for each exact match) 
-// or inexactly (+1 for each indirect match)
-/*
-findWordScore("aglet", ["adieu"]) => 10
-findWordScore("aglet", ["about"]) => 10
-findWordScore("aglet", ["axiom"]) => 5
-findWordScore("aglet", ["axiom","avoid"]) => 10
-findWordScore("aglet", ["treat"]) => 7
-*/
-function findWordScore(filterWord, currentWordList) {
+export function findWordScore(filterWord, currentWordList) {
+    const wordChecker = /^[A-Za-z]{5}$/
+    if (!wordChecker.test(filterWord)) {
+        throw new Error("Invalid word!");
+    }
     return currentWordList.reduce((currentScore, currentWord) => {
         let thisScore = 0;
         for (let i = 0; i < filterWord.length; i++) {
@@ -22,10 +16,7 @@ function findWordScore(filterWord, currentWordList) {
     }, 0);
 }
 
-// return a list of words sorted by whichever word will provide the most useful subset of what is provided
-// What is considered useful? A word with the highest "score", meaning it has the most impact on subsequent
-// guesses
-function sortWords (currentWordList) {
+export function sortWords (currentWordList) {
     const scoredList = currentWordList.map(word =>
        ({word, score: findWordScore(word, currentWordList)})
     ).sort((a, b) => b.score - a.score);
@@ -33,7 +24,7 @@ function sortWords (currentWordList) {
 }
 
 // given a pattern of input from wordle, filter the list of possible words down to those that match
-function filterWords(validWords, matchPattern, notFound) {
+export function filterWords(validWords, matchPattern, notFound) {
     let filterRegex;
 
     let inexactMatches = matchPattern
@@ -71,30 +62,3 @@ function filterWords(validWords, matchPattern, notFound) {
             .reduce((result, letter) => result && word.match(letter), true)
     );
 }
-let validWords;
-
-if (typeof require !== "undefined") {
-    const fs = require('node:fs');
-    const data = fs.readFileSync('./five_letter_words.txt', 'utf8');
-
-    let validWords = data.split("\n");
-/*
-    validWords = filterWords(validWords, ".....", "agle");
-    validWords = filterWords(validWords, "..O.t", "sti");
-    validWords = filterWords(validWords, ".ount", "c");
-    validWords = filterWords(validWords, ".ount", "f");
-*/
-
-    console.log(sortWords(validWords).slice(0,5))
-} else {
-    async function getWords() {
-        const response = await fetch("five_letter_words.txt");
-        validWords = (await response.text()).split("\n");
-    }
-
-    getWords();
-}
-
-export {
-    findWordScore
-};
